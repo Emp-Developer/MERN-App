@@ -1,26 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loginUser } from '../actions/authActions';
+import classnames from 'classnames';
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    useEffect(() => {
+        // If logged in and user navigates to Login page, should redirect them to dashboard
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push("/dashboard");
+        }
+    }, [])
+
     const handleSubmit = (e) => {
         e.preventDefault();
                 
-        const data = {
+        const userData = {
             email: email,
             password: password
         }
-        axios.post("http://localhost:8000/login", data)
-            .then((res) => {
-                console.log(data.email);
-                window.location.href = "/"
-            })
-            .catch((e) => {
+        // axios.post("http://localhost:8000/login", data)
+        //     .then((res) => {
+        //         console.log(data.email);
+        //         window.location.href = "/"
+        //     })
+        //     .catch((e) => {
 
-            })
+        //     })
+        this.props.loginUser(userData);
     }
 
     return (
@@ -52,4 +64,18 @@ function Login() {
     )
 }
 
-export default Login
+Login.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+})
+
+export default connect(
+    mapStateToProps,
+    { loginUser }
+)(Login);

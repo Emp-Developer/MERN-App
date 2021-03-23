@@ -1,31 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { registerUser } from '../actions/authActions';
+import classnames from 'classnames';
+ 
 function Register() {
 
     const [first_name, setFirstname] = useState("");
     const [last_name, setLastname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState([]);
+
+    useEffect(() => {
+        // If logged in and user navigates to Register page, should redirect them to dashboard
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push("/dashboard");
+        }
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("btn clicked")
-        const data = {
+        const newUser = {
             first_name: first_name,
             last_name: last_name,
             email: email,
             password: password
         }
-        axios.post("http://localhost:8000/register",data )
-        .then((res)=>{
-            window.location.href = "/";
-            window.alert(data.email);
-        })
-        .catch((e)=>{
-            window.alert("Error")
-        })
+        // axios.post("http://localhost:8000/register",data )
+        // .then((res)=>{
+        //     window.location.href = "/";
+        //     window.alert(data.email);
+        // })
+        // .catch((e)=>{
+        //     window.alert("Error")
+        // })
+        this.props.registerUser(newUser, this.props.history);
     }
     return (
         <form>
@@ -59,4 +73,19 @@ function Register() {
     )
 }
 
-export default Register
+Register.propTypes = {
+    registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    errors: state.errors
+})
+
+export default connect(
+    mapStateToProps,
+    { registerUser }
+)(withRouter(Register));
+
