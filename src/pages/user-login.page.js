@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,16 +9,14 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    useEffect(() => {
-        // If logged in and user navigates to Login page, should redirect them to dashboard
-        if (this.props.auth.isAuthenticated) {
-            this.props.history.push("/dashboard");
-        }
-    }, [])
+    // useEffect(() => {
+    //     // If logged in and user navigates to Login page, should redirect them to dashboard
+    //     if (this.props.auth.isAuthenticated) {
+    //         this.props.history.push("/dashboard");
+    //     }
+    // }, [])
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-                
+    const handleSubmit = props => {          
         const userData = {
             email: email,
             password: password
@@ -27,12 +24,13 @@ function Login() {
         // axios.post("http://localhost:8000/login", data)
         //     .then((res) => {
         //         console.log(data.email);
+        //         alert("Email", data.email);
         //         window.location.href = "/"
         //     })
         //     .catch((e) => {
 
         //     })
-        this.props.loginUser(userData);
+        props.loginUser(userData);
     }
 
     return (
@@ -79,3 +77,5 @@ export default connect(
     mapStateToProps,
     { loginUser }
 )(Login);
+
+// export default Login;

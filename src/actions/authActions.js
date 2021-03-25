@@ -11,9 +11,11 @@ import {
 // Register User
 export const registerUser = (userData, history) => dispatch => {
     axios
-        .post('http://localhost:8000/register', userData)
-        .then(res => history.push('/login'))
-        .catch(err => 
+        .post('/register', userData)
+        .then(
+            alert("Success"),
+            res => history.push('/login'))
+        .catch(err =>
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data

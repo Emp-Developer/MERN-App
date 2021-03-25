@@ -5,18 +5,13 @@ module.exports = validateRegisterInput = (data) => {
     let errors = {};
 
     // Convert empty field to empty string
-    data.first_name = !isEmpty(data.first_name) ? data.first_name : "";
-    data.last_name = !isEmpty(data.last_name) ? data.last_name : "";
+    data.name = !isEmpty(data.name) ? data.name : "";
     data.email = !isEmpty(data.email) ? data.email : "";
     data.password = !isEmpty(data.password) ? data.password : "";
 
-    // Check First Name
-    if(Validator.isEmpty(data.first_name)) {
-        errors.first_name = "First Name is required!";
-    }
-    // Check Last Name
-    if(Validator.isEmpty(data.last_name)) {
-        errors.last_name = "Last Name is required!";
+    // Check Name
+    if(Validator.isEmpty(data.name)) {
+        errors.name = "Name is required!";
     }
     // Check Email
     if(Validator.isEmpty(data.email)) {

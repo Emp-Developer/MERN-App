@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -9,50 +8,43 @@ import classnames from 'classnames';
  
 function Register() {
 
-    const [first_name, setFirstname] = useState("");
-    const [last_name, setLastname] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState([]);
+    // const [errors, setErrors] = useState([]);
 
-    useEffect(() => {
-        // If logged in and user navigates to Register page, should redirect them to dashboard
-        if (this.props.auth.isAuthenticated) {
-            this.props.history.push("/dashboard");
-        }
-    }, [])
+    // useEffect(() => {
+    //     // If logged in and user navigates to Register page, should redirect them to dashboard
+    //     if (this.props.auth.isAuthenticated) {
+    //         this.props.history.push("/dashboard");
+    //     }
+    // }, [])
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (props) => {
         console.log("btn clicked")
         const newUser = {
-            first_name: first_name,
-            last_name: last_name,
+            name: name,
             email: email,
             password: password
         }
-        // axios.post("http://localhost:8000/register",data )
+        // axios.post("http://localhost:8000/register",newUser )
         // .then((res)=>{
         //     window.location.href = "/";
-        //     window.alert(data.email);
+        //     window.alert(newUser.email);
         // })
         // .catch((e)=>{
         //     window.alert("Error")
         // })
-        this.props.registerUser(newUser, this.props.history);
+        alert("Email", newUser.email)
+        props.registerUser(newUser, props.history);
     }
     return (
         <form>
                 <h3>Sign Up</h3>
 
                 <div className="form-group">
-                    <label>First name</label>
-                    <input type="text" onChange={e => setFirstname(e.target.value)} defaultValue={first_name} className="form-control" placeholder="First name" />
-                </div>
-
-                <div className="form-group">
-                    <label>Last name</label>
-                    <input type="text" onChange={e => setLastname(e.target.value)} defaultValue={last_name} className="form-control" placeholder="Last name" />
+                    <label>Name</label>
+                    <input type="text" onChange={e => setName(e.target.value)} defaultValue={name} className="form-control" placeholder="Last name" />
                 </div>
 
                 <div className="form-group">
@@ -75,17 +67,19 @@ function Register() {
 
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired
+    // errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth,
-    errors: state.errors
+    auth: state.auth
+    // errors: state.errors
 })
 
 export default connect(
     mapStateToProps,
     { registerUser }
 )(withRouter(Register));
+
+// export default Register;
 

@@ -2,11 +2,7 @@ const mongoose = require('../services/mongoose.service').mongoose;
 const Schema = mongoose.Schema;
 
 const User = new Schema({
-    first_name: {
-        type: String,
-        required: true
-    },
-    last_name: {
+    name: {
         type: String,
         required: true
     },
@@ -17,6 +13,18 @@ const User = new Schema({
     password: {
         type: String,
         required: true
+    },
+    accountConfirmation: {
+        type: Boolean,
+        default: false,
+    },
+    resetPass: {
+        type: Boolean,
+        default: false
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 });
 
